@@ -9,21 +9,20 @@ module.exports = {
 		'plugin:react/recommended',
 		'plugin:react-hooks/recommended',
 		'plugin:jsx-a11y/recommended',
-		'plugin:import/errors',
-		'plugin:import/warnings',
+		'plugin:import/recommended',
 		'plugin:import/typescript',
 		'airbnb',
 		'airbnb/hooks',
+		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
 	],
-	parser: '@babel/eslint-parser',
+	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaFeatures: {
 			jsx: true,
 		},
 		ecmaVersion: 'latest',
 		sourceType: 'module',
-		requireConfigFile: false,
 	},
 	plugins: [
 		'react',
@@ -32,6 +31,7 @@ module.exports = {
 		'import',
 		'simple-import-sort',
 		'unused-imports',
+		'@typescript-eslint',
 		'prettier',
 	],
 	settings: {
@@ -45,24 +45,7 @@ module.exports = {
 		'react/react-in-jsx-scope': 'off',
 		'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
 		'import/order': 'off',
-		'simple-import-sort/imports': [
-			'error',
-			{
-				groups: [
-					['^.+\\.css$', '^.+\\.scss$', '^.+\\.sass$'],
-					['^react', '^@?\\w'],
-					['^(@|components|utils|lib|hooks|config|services)(/.*|$)'],
-					[
-						'^\\.\\.(?!/?$)',
-						'^\\.\\./?$',
-						'^\\./(?=.*/)(?!/?$)',
-						'^\\.(?!/?$)',
-						'^\\./?$',
-					],
-					['^'],
-				],
-			},
-		],
+		'simple-import-sort/imports': 'error',
 		'simple-import-sort/exports': 'error',
 		'unused-imports/no-unused-imports': 'error',
 		'unused-imports/no-unused-vars': [
@@ -82,27 +65,14 @@ module.exports = {
 				aspects: ['invalidHref', 'preferButton'],
 			},
 		],
-	},
-	overrides: [
-		{
-			files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
-			parser: '@typescript-eslint/parser',
-			plugins: ['@typescript-eslint'],
-			extends: [
-				'plugin:@typescript-eslint/recommended',
-				'plugin:import/typescript',
-			],
-			rules: {
-				'@typescript-eslint/no-unused-vars': [
-					'warn',
-					{
-						vars: 'all',
-						varsIgnorePattern: '^_',
-						args: 'after-used',
-						argsIgnorePattern: '^_',
-					},
-				],
+		'@typescript-eslint/no-unused-vars': [
+			'warn',
+			{
+				vars: 'all',
+				varsIgnorePattern: '^_',
+				args: 'after-used',
+				argsIgnorePattern: '^_',
 			},
-		},
-	],
+		],
+	},
 };

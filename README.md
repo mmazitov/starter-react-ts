@@ -1,47 +1,54 @@
-# React Starter
+# React + TypeScript + Vite
 
-## 🎯 About
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-A basic React project setup using Vite, TypeScript, and Tailwind CSS. This starter kit provides a streamlined foundation for building modern web applications with a focus on performance and developer experience.
+Currently, two official plugins are available:
 
-## 🛠 Tech Stack
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- **[React:](https://react.dev/)** A JavaScript library for building user interfaces.
-- **[TypeScript:](https://www.typescriptlang.org/)** A programming language that adds static typing to JavaScript.
-- **[Vite:](https://vite.dev/)** A build tool that provides a faster and leaner development experience for modern web projects.
-- **[Tailwind CSS:](https://tailwindcss.com/)** A utility-first CSS framework for styling.
-- **[ESLint:](https://eslint.org/)** A tool for identifying and fixing problems in JavaScript code.
-- **[Prettier:](https://prettier.io/)** An opinionated code formatter.
+## Expanding the ESLint configuration
 
-## 🏁 Starting
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```
-Before starting 🏁, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
-
-# Clone this project
-$ git clone https://github.com/mmazitov/starter-react-ts
-
-# Access
-$ cd starter-react-ts
-
-# Install the dependencies using Yarn or npm:
-$ yarn install or $ npm install
-
-#To start the development server, run:
-$ npm run dev or $ yarn dev
-
-# To build the project for production, run:
-$ npm run build or $ yarn build
-
-# To preview the production build, run:
-$ npm run preview or $ yarn preview
-
-# Lint project
-$ npm lint or $ yarn lint
-
-
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
 
-## 🤝 Contributing
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue if you encounter any bugs or have feature requests.
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```
